@@ -1,0 +1,8 @@
+tensorflow-macos>=2.13
+tensorflow-metal
+transformers
+h5py
+numpy
+scikit-learn
+pandas
+tqdm
