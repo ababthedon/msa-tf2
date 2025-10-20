@@ -1,0 +1,24 @@
+{
+  "architecture": {
+    "seq_len": 20,
+    "model_dim": 128,
+    "num_heads": 4,
+    "ff_dim": 256,
+    "n_layers_mod": 2,
+    "n_layers_fuse": 1,
+    "bidirectional_fusion": false,
+    "pooling_method": "mean",
+    "dropout_rate": 0.1
+  },
+  "training": {
+    "batch_size": 32,
+    "learning_rate": 0.0001,
+    "epochs": 100,
+    "patience": 15,
+    "mixed_precision": false
+  },
+  "test_results": {
+    "loss": 0.6500633955001831,
+    "compile_metrics": 0.6500633955001831
+  }
+}
