@@ -1,0 +1,125 @@
+================================================================================
+  QUICK INSTALLATION GUIDE FOR EVALUATION TOOLS
+================================================================================
+
+PACKAGES NEEDED:
+--------------------------------------------------------------------------------
+The evaluate_and_visualize.py script requires these packages:
+
+✓ numpy          - ALREADY INSTALLED
+✓ pandas         - ALREADY INSTALLED  
+✓ matplotlib     - ALREADY INSTALLED
+✓ seaborn        - ALREADY INSTALLED
+✓ scipy          - ALREADY INSTALLED
+✓ h5py           - ALREADY INSTALLED
+✓ tensorflow     - ALREADY INSTALLED
+
+✗ scikit-learn   - NEEDS INSTALLATION
+
+================================================================================
+  INSTALLATION COMMAND (ONE LINE)
+================================================================================
+
+conda activate msa-tf2 && pip install scikit-learn
+
+================================================================================
+  STEP-BY-STEP
+================================================================================
+
+1. Activate your conda environment:
+   $ conda activate msa-tf2
+
+2. Install scikit-learn:
+   $ pip install scikit-learn
+
+3. Verify installation:
+   $ python -c "import sklearn; print('✓ scikit-learn installed!')"
+
+================================================================================
+  VERIFY EVERYTHING IS READY
+================================================================================
+
+After installation, run this verification:
+
+conda activate msa-tf2
+python << 'EOF'
+try:
+    import numpy
+    import pandas
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    from scipy import stats
+    from sklearn.metrics import mean_absolute_error
+    import h5py
+    import tensorflow as tf
+    
+    print("="*70)
+    print("✓ ALL PACKAGES SUCCESSFULLY IMPORTED!")
+    print("="*70)
+    print("\nYou're ready to run:")
+    print("  ./demo_evaluation.sh")
+    print("  python evaluate_and_visualize.py --help")
+    print("\nHappy evaluating! 🎉")
+except ImportError as e:
+    print(f"✗ Error: {e}")
+    print("Please install missing package")
+EOF
+
+================================================================================
+  QUICK START AFTER INSTALLATION
+================================================================================
+
+# Run the demo
+./demo_evaluation.sh
+
+# Or evaluate your model
+python evaluate_and_visualize.py \
+    --model weights/seqlevel_final_20251019_010827.h5 \
+    --data ./data \
+    --name MSA_SeqLevel
+
+================================================================================
+  WHAT SCIKIT-LEARN PROVIDES
+================================================================================
+
+scikit-learn (sklearn) is used for:
+- Classification metrics: accuracy_score, f1_score, precision, recall
+- Regression metrics: mean_absolute_error, mean_squared_error, r2_score
+- Confusion matrices
+- Model evaluation utilities
+
+Size: ~30 MB
+Installation time: ~30 seconds
+
+================================================================================
+  TROUBLESHOOTING
+================================================================================
+
+If "pip install scikit-learn" fails:
+
+Try conda:
+  $ conda install -c conda-forge scikit-learn
+
+Or upgrade pip first:
+  $ pip install --upgrade pip
+  $ pip install scikit-learn
+
+================================================================================
+  ALTERNATIVE: INSTALL ALL AT ONCE
+================================================================================
+
+If you want to ensure everything is up-to-date:
+
+conda activate msa-tf2
+pip install --upgrade scipy scikit-learn seaborn matplotlib
+
+This will install/upgrade all evaluation-related packages.
+
+================================================================================
+
+That's it! Just one package to install: scikit-learn
+
+Run: conda activate msa-tf2 && pip install scikit-learn
+
+================================================================================
+

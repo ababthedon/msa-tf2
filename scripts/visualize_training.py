@@ -28,8 +28,8 @@ if args.output is None:
     args.output = os.path.join(csv_dir, f'{csv_name}_visualization.png')
 
 # Create figure with subplots
-fig, axes = plt.subplots(2, 2, figsize=(16, 10))
-fig.suptitle('MSA Sequence-Level Model - Training Progress', fontsize=16, fontweight='bold')
+fig, axes = plt.subplots(2, 2, figsize=(16, 11))
+fig.suptitle('MSA Sequence-Level Model - Training Progress', fontsize=16, fontweight='bold', y=0.98)
 
 # Define colors
 train_color = '#2E86AB'  # Blue
@@ -39,38 +39,64 @@ lr_color = '#F18F01'     # Orange
 # Plot 1: MAE (Training vs Validation)
 axes[0, 0].plot(df['epoch'], df['mae'], label='Training MAE', color=train_color, linewidth=2)
 axes[0, 0].plot(df['epoch'], df['val_mae'], label='Validation MAE', color=val_color, linewidth=2)
-axes[0, 0].set_title('Mean Absolute Error Over Time', fontweight='bold')
+axes[0, 0].set_title('Mean Absolute Error Over Time', fontweight='bold', pad=15)
 axes[0, 0].set_xlabel('Epoch')
 axes[0, 0].set_ylabel('MAE')
-axes[0, 0].legend()
+axes[0, 0].legend(loc='upper right')
 axes[0, 0].grid(True, alpha=0.3)
 
 # Add annotation for best validation MAE
 best_val_mae_idx = df['val_mae'].idxmin()
 best_val_mae = df.loc[best_val_mae_idx, 'val_mae']
 best_mae_epoch = df.loc[best_val_mae_idx, 'epoch']
-axes[0, 0].annotate(f'Best Val MAE: {best_val_mae:.3f}\n(Epoch {best_mae_epoch})', 
-                   xy=(best_mae_epoch, best_val_mae), xytext=(best_mae_epoch+5, best_val_mae+0.2),
-                   arrowprops=dict(arrowstyle='->', color='red', alpha=0.7),
-                   bbox=dict(boxstyle="round,pad=0.3", facecolor='yellow', alpha=0.7))
+
+# Calculate adaptive position to keep annotation inside plot
+y_range = axes[0, 0].get_ylim()
+x_range = axes[0, 0].get_xlim()
+y_span = y_range[1] - y_range[0]
+x_span = x_range[1] - x_range[0]
+
+# Position annotation in upper-left area to avoid overlap
+text_x = x_range[0] + 0.05 * x_span
+text_y = y_range[0] + 0.85 * y_span
+
+axes[0, 0].annotate(f'Best: {best_val_mae:.3f}\n(Epoch {best_mae_epoch})', 
+                   xy=(best_mae_epoch, best_val_mae), 
+                   xytext=(text_x, text_y),
+                   arrowprops=dict(arrowstyle='->', color='red', alpha=0.7, lw=1.5),
+                   bbox=dict(boxstyle="round,pad=0.4", facecolor='yellow', alpha=0.8, edgecolor='red'),
+                   fontsize=9, ha='left')
 
 # Plot 2: MSE (Training vs Validation)
 axes[0, 1].plot(df['epoch'], df['mse'], label='Training MSE', color=train_color, linewidth=2)
 axes[0, 1].plot(df['epoch'], df['val_mse'], label='Validation MSE', color=val_color, linewidth=2)
-axes[0, 1].set_title('Mean Squared Error Over Time', fontweight='bold')
+axes[0, 1].set_title('Mean Squared Error Over Time', fontweight='bold', pad=15)
 axes[0, 1].set_xlabel('Epoch')
 axes[0, 1].set_ylabel('MSE')
-axes[0, 1].legend()
+axes[0, 1].legend(loc='upper right')
 axes[0, 1].grid(True, alpha=0.3)
 
 # Add annotation for best validation MSE
 best_val_mse_idx = df['val_mse'].idxmin()
 best_val_mse = df.loc[best_val_mse_idx, 'val_mse']
 best_mse_epoch = df.loc[best_val_mse_idx, 'epoch']
-axes[0, 1].annotate(f'Best Val MSE: {best_val_mse:.3f}\n(Epoch {best_mse_epoch})', 
-                   xy=(best_mse_epoch, best_val_mse), xytext=(best_mse_epoch+3, best_val_mse+0.3),
-                   arrowprops=dict(arrowstyle='->', color='red', alpha=0.7),
-                   bbox=dict(boxstyle="round,pad=0.3", facecolor='yellow', alpha=0.7))
+
+# Calculate adaptive position to keep annotation inside plot
+y_range = axes[0, 1].get_ylim()
+x_range = axes[0, 1].get_xlim()
+y_span = y_range[1] - y_range[0]
+x_span = x_range[1] - x_range[0]
+
+# Position annotation in upper-left area to avoid overlap
+text_x = x_range[0] + 0.05 * x_span
+text_y = y_range[0] + 0.85 * y_span
+
+axes[0, 1].annotate(f'Best: {best_val_mse:.3f}\n(Epoch {best_mse_epoch})', 
+                   xy=(best_mse_epoch, best_val_mse), 
+                   xytext=(text_x, text_y),
+                   arrowprops=dict(arrowstyle='->', color='red', alpha=0.7, lw=1.5),
+                   bbox=dict(boxstyle="round,pad=0.4", facecolor='yellow', alpha=0.8, edgecolor='red'),
+                   fontsize=9, ha='left')
 
 # Plot 3: Learning Rate and Training Gap
 ax1 = axes[1, 0]
@@ -93,12 +119,12 @@ ax2.tick_params(axis='y', labelcolor='red')
 # Add horizontal line at gap = 0
 ax2.axhline(y=0, color='black', linestyle='-', alpha=0.3)
 
-axes[1, 0].set_title('Learning Rate & Overfitting Gap', fontweight='bold')
+axes[1, 0].set_title('Learning Rate & Overfitting Gap', fontweight='bold', pad=15)
 
 # Combine legends
 lines1, labels1 = ax1.get_legend_handles_labels()
 lines2, labels2 = ax2.get_legend_handles_labels()
-ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
+ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper right', fontsize=9)
 
 ax1.grid(True, alpha=0.3)
 
@@ -116,10 +142,10 @@ if 'epoch' in df.columns and len(df) > 1:
     axes[1, 1].plot(df['epoch'], df['val_mse']/2, label='Validation MSE/2', 
                    color=val_color, linewidth=1.5, linestyle='--', alpha=0.5)
     
-    axes[1, 1].set_title('Combined Metrics Over Time', fontweight='bold')
+    axes[1, 1].set_title('Combined Metrics Over Time', fontweight='bold', pad=15)
     axes[1, 1].set_xlabel('Epoch')
     axes[1, 1].set_ylabel('Metric Value')
-    axes[1, 1].legend(loc='upper right', fontsize=9)
+    axes[1, 1].legend(loc='upper right', fontsize=8, framealpha=0.9)
     axes[1, 1].grid(True, alpha=0.3)
     
     # Highlight convergence point (where validation starts increasing)
@@ -153,11 +179,12 @@ summary_text = (f"Best Val MAE: {best_val_mae:.4f} @ Epoch {best_mae_epoch}  |  
                 f"Total Epochs: {total_epochs}  |  "
                 f"{lr_text}")
 
-fig.text(0.5, 0.96, summary_text, ha='center', va='top', fontsize=11,
-         bbox=dict(boxstyle="round,pad=0.5", facecolor='lightblue', alpha=0.8, edgecolor='navy'))
+# Adjust layout first to position charts properly
+plt.tight_layout(rect=[0, 0, 1, 0.955])
 
-# Adjust layout with room for summary
-plt.tight_layout(rect=[0, 0, 1, 0.94])
+# Add summary text after layout adjustment
+fig.text(0.5, 0.975, summary_text, ha='center', va='top', fontsize=10,
+         bbox=dict(boxstyle="round,pad=0.5", facecolor='lightblue', alpha=0.85, edgecolor='navy'))
 
 # Save the plot
 plt.savefig(args.output, dpi=300, bbox_inches='tight', facecolor='white')
